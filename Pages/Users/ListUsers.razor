@@ -1,0 +1,46 @@
+﻿@page "/users"
+@inject IUserService userService
+<h3>Users</h3>
+
+<br />
+
+@if (Users == null)
+    {
+        <img src="https://media.giphy.com/media/sSgvbe1m3n93G/giphy.gif" />
+    }
+    else
+    {
+        <table class='table'>
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Age</th>
+                    <th>Role</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var user in Users)
+                {
+                <tr>
+                    <td>@user.Username</td>
+                    <td>@user.Age</td>
+                    <td>@user.Role</td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    }
+
+@code {
+    public IEnumerable<User> Users { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        await GetUsers();
+    }
+
+    protected async Task GetUsers()
+    {
+        Users = await userService.GetUsers();
+    }
+}
